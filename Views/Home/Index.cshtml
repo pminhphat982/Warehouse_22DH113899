@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Warehouse.Models.Product>
+<h2>Danh sách sản phẩm</h2>
+@* Bổ sung hiển thị thông báo thành công hoặc lỗi *@
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success" style="color: green; font-weight: bold; background-color: #d4edda; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+        @TempData["Success"]
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger" style="color: red; font-weight: bold; background-color: #f8d7da; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+        @TempData["Error"]
+    </div>
+}
+<table class="table table-bordered table-striped">
+    <thead class="bg-primary text-white">
+        <tr>
+            <th>ID</th>
+            <th>Tên sản phẩm</th>
+            <th>Danh mục</th>
+            <th>Đơn giá</th>
+            <th>Số lượng</th>
+            <th>Tình trạng</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductID</td>
+                <td>@item.ProductName</td>
+                <td>@item.Category</td>
+                <td>@item.Price.ToString("#,##0") đ</td>
+                <td>@item.Quantity</td>
+
+                @* XỬ LÝ HIỂN THỊ TÌNH TRẠNG *@
+                <td style="font-weight: bold;">
+                    @if (item.Quantity == 0)
+                    {
+                        <span style="color: red;">Hết hàng</span>
+                    }
+                    else if (item.Quantity >= 1 && item.Quantity <= 4)
+                    {
+                        <span style="color: orange;">Sắp hết</span>
+                    }
+                    else
+                    {
+                        <span style="color: green;">Đủ hàng</span>
+                    }
+                </td>
+
+                @* NÚT SỬA *@
+                <td>
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.ProductID }, new { @class = "btn btn-sm btn-warning" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

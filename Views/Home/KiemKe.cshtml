@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Warehouse.Models.Product> 
+
+<h2>Kiểm kê hàng hóa</h2>
+
+@* Hiện thông báo lỗi nếu nhập số âm *@
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger" style="color: red; font-weight:bold; padding: 10px; border: 1px solid red; margin-bottom: 15px;">
+        @TempData["Error"]
+    </div>
+}
+
+<table class="table table-bordered table-striped">
+    <thead class="bg-warning">
+        <tr>
+            <th>ID</th>
+            <th>Tên sản phẩm</th>
+            <th>Tồn kho hiện tại</th>
+            <th>Nhập số lượng thực tế</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductID</td>
+                <td style="font-weight:bold;">@item.ProductName</td>
+                <td style="font-size: 1.2em;">@item.Quantity</td>
+                <td>
+                    
+                    @using (Html.BeginForm("CapNhatKiemKe", "Home", FormMethod.Post, new { @class = "form-inline" }))
+                    {
+                        <input type="hidden" name="id" value="@item.ProductID" />
+                        <div class="input-group">
+                            @* type="number" giúp chặn nhập chữ ở giao diện *@
+                            <input type="number" name="actualQuantity" class="form-control" placeholder="Nhập số thực tế..." required style="width: 150px; margin-right: 10px;" />
+                            <button type="submit" class="btn btn-success">Cập nhật</button>
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

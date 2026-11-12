@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Thống kê tồn kho";
+}
+
+<h2 style="color: #2c3e50; font-weight: bold; border-bottom: 2px solid #3498db; padding-bottom: 10px;">
+    Báo Cáo Thống Kê Kho Hàng
+</h2>
+
+<div class="row" style="margin-top: 30px;">
+    <!-- Box 1: Tổng số sản phẩm -->
+    <div class="col-md-4">
+        <div class="panel panel-primary" style="box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <div class="panel-heading text-center" style="font-size: 1.2em; font-weight: bold;">
+                Tổng số đầu mục sản phẩm
+            </div>
+            <div class="panel-body text-center" style="font-size: 3em; color: #2980b9; font-weight: bold;">
+                @ViewBag.TongSoSP
+            </div>
+        </div>
+    </div>
+
+    <!-- Box 2: Sản phẩm hết hàng -->
+    <div class="col-md-4">
+        <div class="panel panel-danger" style="box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <div class="panel-heading text-center" style="font-size: 1.2em; font-weight: bold;">
+                Sản phẩm hết hàng (Tồn = 0)
+            </div>
+            <div class="panel-body text-center" style="font-size: 3em; color: #c0392b; font-weight: bold;">
+                @ViewBag.SPHetHang
+            </div>
+        </div>
+    </div>
+
+    <!-- Box 3: Tổng giá trị hàng tồn -->
+    <div class="col-md-4">
+        <div class="panel panel-success" style="box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <div class="panel-heading text-center" style="font-size: 1.2em; font-weight: bold;">
+                Tổng giá trị hàng tồn (VNĐ)
+            </div>
+            <div class="panel-body text-center" style="font-size: 2.5em; color: #27ae60; font-weight: bold;">
+                @ViewBag.TongGiaTri.ToString("#,##0") đ
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center" style="margin-top: 20px;">
+    <a href="/Home/Index" class="btn btn-default btn-lg">Quay lại danh sách</a>
+    <a href="/Home/ThongKe" class="btn btn-primary btn-lg">Làm mới dữ liệu</a>
+</div>

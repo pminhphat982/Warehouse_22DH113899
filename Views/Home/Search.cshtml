@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Warehouse.Models.Product>
+<h2>Tra cứu hàng hóa</h2>
+
+@* FORM TÌM KIẾM (Dùng GET để thông số hiện lên URL) *@
+<div class="well" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px;">
+    @using (Html.BeginForm("Search", "Home", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <div class="form-group" style="margin-right: 10px;">
+            <input type="text" name="keyword" value="@ViewBag.Keyword" class="form-control" placeholder="Nhập tên sản phẩm..." style="min-width: 250px;" />
+        </div>
+
+        <div class="form-group" style="margin-right: 10px;">
+            <select name="status" class="form-control">
+                <option value="">-- Tất cả tình trạng --</option>
+                <option value="0" @(ViewBag.Status == 0 ? "selected" : "")>Hết hàng (0)</option>
+                <option value="1" @(ViewBag.Status == 1 ? "selected" : "")>Sắp hết (1-4)</option>
+                <option value="2" @(ViewBag.Status == 2 ? "selected" : "")>Đủ hàng (>= 5)</option>
+            </select>
+        </div>
+
+        <div class="form-group" style="margin-right: 10px;">
+            <select name="sortOrder" class="form-control">
+                <option value="">-- Sắp xếp --</option>
+                <option value="asc" @(ViewBag.SortOrder == "asc" ? "selected" : "")>Giá tăng dần</option>
+                <option value="desc" @(ViewBag.SortOrder == "desc" ? "selected" : "")>Giá giảm dần</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        <a href="/Home/Search" class="btn btn-default">Bỏ lọc</a>
+    }
+</div>
+
+<hr />
+
+@* HIỂN THỊ KẾT QUẢ VÀ THÔNG BÁO *@
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-warning text-center">
+        <strong>@ViewBag.Message</strong>
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="bg-primary text-white">
+            <tr>
+                <th>ID</th>
+                <th>Tên sản phẩm</th>
+                <th>Danh mục</th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductID</td>
+                    <td style="font-weight: bold;">@item.ProductName</td>
+                    <td>@item.Category</td>
+                    <td style="color: #d35400; font-weight: bold;">@item.Price.ToString("#,##0") đ</td>
+                    <td>
+                        @item.Quantity
+                        @if (item.Quantity == 0)
+                        {<span class="label label-danger" style="color:red">(Hết hàng)</span> }
+                        else if (item.Quantity >= 1 && item.Quantity <= 4)
+                        { <span class="label label-warning" style="color:orange">(Sắp hết)</span> }
+                        else
+                        { <span class="label label-success" style="color:green">(Đủ hàng)</span>}
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
